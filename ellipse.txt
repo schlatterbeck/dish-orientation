@@ -1,0 +1,84 @@
+Konvention: Die Y-Achse zeigt von uns weg, die X-Achse nach rechts, die
+Z-Achse nach oben.
+
+Die Antenne schaut wie eine Ellipse aus, die Hauptachse nennen wir l1,
+die Nebenachse l2.
+
+Generell gilt: Wir wollen Azimuth und Elevation der Antenne bestimmen.
+Dabei steht die Antenne ursprünglich nach Norden (Azimuth 0) und
+parallel zum Erdboden (Elevation 0). Um die Antenne in eine bestimmte
+Richtung zu drehen, drehen wir zuerst um die X-Achse (Elevation, die
+X-Achse ist die, die senkrecht zur Blickrichtung waagerecht ist) und
+dann um die Z-Achse (Azimuth).
+
+Wir gehen davon aus dass die Antenne im Brennpunkt der Kameralinse ist.
+Wenn das nicht der Fall ist kommt es zu Verzerrungen, besonders bei
+einem Objektiv mit hoher Brennweite.
+
+Vereinfachend nehmen wir mal an, dass wir im Norden der Antenne sind
+und Beobachter und Antenne auf der selben Höhe sind. Falls es eine
+Höhendifferenz gibt, kann man die Elevation-Korrektur aus Abstand und
+Höhe berechnen (left as an excercise to the reader). Und wenn wir nicht
+im Norden der Antenne sind ergibt sich die Azimuth Korrektur analog.
+
+Wir können die Ellipse um die Achse l1 so drehen dass die Schüssel zu
+uns schaut. Nennen wir diesen Winkel mal beta. Den können wir schon
+ausrechnen: cos (beta) = l2 / l1. Die Längen l1 und l2 sind aus dem
+Photo abzulesen.
+
+Die Ellipse ist um einen Winkel alpha (um die Y-Achse, das ist die
+Blickrichtung) geneigt den wir direkt aus der Grafik bestimmen können,
+wir drehen die Antenne so dass die Ellipse aufrecht steht. Das
+entspricht einer Drehung um die Y-Achse (das ist die Achse die zu uns
+zeigt). Nach dieser Operation liegt l1 auf der Z-Achse.
+
+Jetzt können wir um beta drehen und haben einen Kreis (die Antenne
+zeigt direkt zu uns).
+
+Leider ist nach dieser Operation die Antenne verdreht um die Y-Achse.
+(Bei einem runden Teil sieht man das natürlich nicht).  Nennen wir
+diesen Winkel mal gamma. Um ihn zu korrigieren müssen wir noch um den
+Betrag gamma um die Y-Achse drehen.
+
+Also:
+- alpha aus dem Photo ablesen, das ist der Winkel zwischen der
+  Senkrechten (Z) und l1 der Ellipse.
+- beta bestimmen: beta = arccos (l2 / l1)
+- Wie man gamma bestimmt weiss ich leider (noch?) nicht
+
+Wenn man die Rotationsmatrizen ausmultipliziert kommt für Azimuth (phi)
+und Elevation (theta) raus:
+
+[[cos(phi), -sin(phi)*cos(theta), -sin(phi)*sin(theta)],
+ [sin(phi), cos(phi)*cos(theta), sin(theta)*cos(phi)],
+ [0, -sin(theta), cos(theta)]]
+
+Und für unsere Variante mit alpha, beta, gamma (schon rückwärts
+und negativ gerechnet):
+[[ -sin(alpha)*sin(gamma) + cos(alpha)*cos(beta)*cos(gamma)
+ , sin(beta)*cos(alpha)
+ , -sin(alpha)*cos(gamma) - sin(gamma)*cos(alpha)*cos(beta)
+ ],
+ [ -sin(beta)*cos(gamma)
+ , cos(beta)
+ , sin(beta)*sin(gamma)
+ ],
+ [ sin(alpha)*cos(beta)*cos(gamma) + sin(gamma)*cos(alpha)
+ , sin(alpha)*sin(beta)
+ , -sin(alpha)*sin(gamma)*cos(beta) + cos(alpha)*cos(gamma)
+ ]]
+
+Das hab ich mit openscad ausprobiert und dann in python nachgerechnet,
+die obigen zwei Matrizen sind äquivalent. Leider ist Gamma nicht
+bekannt, vielleicht findet da noch jemand eine Lösung.
+
+Aber daraus kann man zumindest mal theta bestimmen, weil die obigen
+beiden Matrizen identisch sind, können wir aus der ersten matrix in der
+untersten Zeile in der mittleren Spalte sin (theta) bekommen und dafür
+den Ausdruck in der zweiten Matrix an der selben Stelle nehmen, also:
+
+sin(theta) = sin(alpha)*sin(beta)
+
+Also die Elevation wissen wir damit.
+In allen anderen Werten kommt leider gamma vor. Aber kann man bestimmt
+ausrechnen es gibt ja nicht so viele unbekannte .-)
