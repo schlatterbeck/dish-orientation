@@ -27,6 +27,11 @@ is the positive rotation angle around an axis, point your right-hand
 thumb in the direction of the positive axis, then the fingers point in
 the direction of the positive rotation angle.
 
+.. image:: https://upload.wikimedia.org/wikipedia/commons/3/34/Right-hand_grip_rule.svg
+  :width: 500
+  :alt: Right-hand rule
+
+
 To sum up:
 
 - Measure l1, l2 of ellipse and compute beta = arccos (l2 / l1)
