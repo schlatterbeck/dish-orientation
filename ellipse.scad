@@ -1,7 +1,9 @@
-module schuessel (r = 20, t = 0.1, ele = 30, azi = 45)
+module schuessel (r = 20, t = 0.1, ele = 30, azi = 45, psi = 0, xi = 0)
 {
+    rotate ([psi, 0, 0])
     rotate ([0, 0, azi])
     rotate ([-ele, 0, 0])
+    rotate ([0, -xi, 0])
     rotate ([-90, 0, 0])
         difference () {
         union () {
@@ -27,10 +29,10 @@ module schuessel (r = 20, t = 0.1, ele = 30, azi = 45)
 // schuessel (azi = 0, ele = 60, $fa=1);
 
 // An arbitrary angle
-rotate ([0, -40.967, 0])
-rotate ([0, 0, -69.3])
-rotate ([0, 68, 0])
-schuessel (ele = 60, azi = 45, $fa=1);
+// rotate ([0, -40.967, 0])
+// rotate ([0, 0, -69.3])
+// rotate ([0, 68, 0])
+// schuessel (ele = 60, azi = 45, $fa=1);
 
 // This needs no Y-Rotation
 // rotate ([0, 0, -90])
@@ -44,3 +46,9 @@ schuessel (ele = 60, azi = 45, $fa=1);
 // schuessel (ele = 60, azi = 60, $fa=1);
 
 //schuessel (ele = 0, azi = 0, $fa=1);
+
+// Example with elevation correction:
+rotate ([0, -50.924, 0])
+rotate ([0, 0, -51.066])
+rotate ([0, 62.966, 0])
+schuessel (ele = 60, azi = 45, psi = 20, xi = -19.597, $fa=1);

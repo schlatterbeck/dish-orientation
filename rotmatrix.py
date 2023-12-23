@@ -164,3 +164,45 @@ if __name__ == '__main__':
     phi    = -asin ((cos (alpha) * sin (beta)) / cos (theta))
     print ("phi:   %7.3f°" % (phi   * 180 / pi))
     print ("theta: %7.3f°" % (theta * 180 / pi))
+
+    # Now with elevation correction
+    phi_r   =  45 / 180 * pi
+    theta_r =  60 / 180 * pi
+    psi     =  20 / 180 * pi
+    print ("phi_r:   %7.3f°" % (phi_r   * 180 / pi))
+    print ("theta_r: %7.3f°" % (theta_r * 180 / pi))
+    print ("psi:     %7.3f°" % (psi     * 180 / pi))
+
+    theta = asin ( cos (psi) * sin (theta_r)
+                 - cos (phi_r) * sin (psi) * cos (theta_r)
+                 )
+    xi    = -asin ((sin (phi_r) * sin (psi)) / cos(theta))
+    phi   = acos ( (sin (psi) * sin (theta_r)) / cos (theta)
+                 + (cos (phi_r) * cos (psi) * cos (theta_r)) / cos(theta)
+                 )
+    print ("phi:     %7.3f°" % (phi   * 180 / pi))
+    print ("theta:   %7.3f°" % (theta * 180 / pi))
+    print ("xi:      %7.3f°" % (xi    * 180 / pi))
+
+    beta   = -acos (cos (phi) * cos (theta))
+    alpha  = pi - acos ((sin (phi) * cos (theta)) / sin (beta))
+    gamma  = asin ((cos (phi) * sin (theta)) / sin (beta))
+
+    print ("alpha:   %7.3f°" % (alpha * 180 / pi))
+    print ("beta:    %7.3f°" % (beta  * 180 / pi))
+    print ("gamma:   %7.3f°" % (gamma * 180 / pi))
+
+    # Now back to phi, theta
+    theta  = -asin (sin (alpha) * sin (beta))
+    phi    = -asin ((cos (alpha) * sin (beta)) / cos (theta))
+    print ("phi:     %7.3f°" % (phi   * 180 / pi))
+    print ("theta:   %7.3f°" % (theta * 180 / pi))
+
+    # And back to theta_r, phi_r
+    theta_r = asin ( cos (psi) * sin (theta)
+                   + cos (phi) * sin (psi) * cos (theta)
+                   )
+    phi_r   = asin ((sin (phi) * cos (theta)) / cos (theta_r))
+    print ("phi_r:   %7.3f°" % (phi_r   * 180 / pi))
+    print ("theta_r: %7.3f°" % (theta_r * 180 / pi))
+

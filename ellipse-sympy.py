@@ -37,25 +37,25 @@ print (m2)
 # and negative if lower. Note that this introduces another rotation
 # around the central axis of the antenna, we try several variants.
 
-print ('rot_y applied to m_real')
+print ('\nrot_y applied to m_real')
 m_real     = rot_x (psi) @ rot_z (phi_r) @ rot_x (-theta_r) @ rot_y (xi)
 m_measured = rot_z (phi) @ rot_x (-theta)
 print (m_real)
 print (m_measured)
 
-print ('rot_y applied to m_measured')
+print ('\nrot_y applied to m_measured')
 m_real     = rot_x (psi) @ rot_z (phi_r) @ rot_x (-theta_r)
 m_measured = rot_z (phi) @ rot_x (-theta) @ rot_y (xi)
 print (m_real)
 print (m_measured)
 
-print ('We can apply inverse psi to measured, xi on measured')
+print ('\nWe can apply inverse psi to measured, xi on measured')
 m_real     = rot_z (phi_r) @ rot_x (-theta_r)
 m_measured = rot_x (-psi) @ rot_z (phi) @ rot_x (-theta) @ rot_y (xi)
 print (m_real)
 print (m_measured)
 
-print ('We can apply inverse psi to measured, xi on real')
+print ('\nWe can apply inverse psi to measured, xi on real')
 m_real     = rot_z (phi_r) @ rot_x (-theta_r) @ rot_y (xi)
 m_measured = rot_x (-psi) @ rot_z (phi) @ rot_x (-theta)
 print (m_real)

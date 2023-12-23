@@ -176,7 +176,77 @@ theta_r=asin(cos(psi)*sin(theta)+cos(phi)*sin(psi)*cos(theta))
 xi=-asin((sin(phi)*sin(psi))/cos(theta_r))
 phi_r=asin((sin(phi)*cos(theta))/cos(theta_r))
 
-And reverse direction:
-phi=acos(sin(phi_r)*sin(theta_r)*sin(xi)+cos(phi_r)*cos(xi))
-xi=-asin((sin(phi)*sin(psi))/cos(theta_r))
-theta=-asin((cos(phi_r)*sin(xi))/sin(phi)-(sin(phi_r)*sin(theta_r)*cos(xi))/sin(phi))
+Andere Richtung, anderer Ansatz mit den phi-gedrehten Koordinaten
+
+[ [ cos(phi_r)
+  , -sin(phi_r)*cos(theta_r)
+  , -sin(phi_r)*sin(theta_r)
+  ],
+  [ sin(phi_r)*cos(psi)
+  , sin(psi)*sin(theta_r) + cos(phi_r)*cos(psi)*cos(theta_r)
+  , -sin(psi)*cos(theta_r) + sin(theta_r)*cos(phi_r)*cos(psi)
+  ],
+  [ sin(phi_r)*sin(psi)
+  , sin(psi)*cos(phi_r)*cos(theta_r) - sin(theta_r)*cos(psi)
+  , sin(psi)*sin(theta_r)*cos(phi_r) + cos(psi)*cos(theta_r)
+  ]
+]
+
+[ [ sin(phi)*sin(theta)*sin(xi) + cos(phi)*cos(xi)
+  , -sin(phi)*cos(theta)
+  , -sin(phi)*sin(theta)*cos(xi) + sin(xi)*cos(phi)
+  ],
+  [ sin(phi)*cos(xi) - sin(theta)*sin(xi)*cos(phi)
+  , cos(phi)*cos(theta)
+  , sin(phi)*sin(xi) + sin(theta)*cos(phi)*cos(xi)
+  ],
+  [ -sin(xi)*cos(theta)
+  , -sin(theta)
+  , cos(theta)*cos(xi)
+  ]
+]
+
+theta=asin(cos(psi)*sin(theta_r)-cos(phi_r)*sin(psi)*cos(theta_r))
+xi=-asin((sin(phi_r)*sin(psi))/cos(theta))
+phi=acos((sin(psi)*sin(theta_r))/cos(theta)+(cos(phi_r)*cos(psi)*cos(theta_r))/cos(theta))
+
+Konkretes Zahlenbeispiel:
+
+phi_r:    45.000°
+theta_r:  60.000°
+psi:      20.000°
+phi:      29.362°
+theta:    43.858°
+xi:      -19.597°
+alpha:    62.966°
+beta:    -51.066°
+gamma:   -50.924°
+phi:      29.362°
+theta:    43.858°
+phi_r:    45.000°
+theta_r:  60.000°
+
+
+To sum up:
+- Measure l1, l2 of ellipse and compute beta = arccos (l2 / l1)
+- Measure alpha: angle between l1 and vertical Z-axis, positive angles
+  turn the ellipse right, we measure by how much ellipsis needs to be
+  turned to be upright
+- In the real world determine psi, our angle to the antenna. If we're
+  higher than the antenna, the angle is positive, if we're lower,
+  negative. If we're the same height psi = 0.
+- Compute theta, phi, gamma
+    theta=-asin(sin(alpha)*sin(beta))
+    phi=-asin((cos(alpha)*sin(beta))/cos(theta))
+    gamma=asin((cos(phi)*sin(theta))/sin(beta))
+- Compute theta_r, phi_r, xi:
+    theta_r=asin(cos(psi)*sin(theta)+cos(phi)*sin(psi)*cos(theta))
+    phi_r=asin((sin(phi)*cos(theta))/cos(theta_r))
+    xi=-asin((sin(phi)*sin(psi))/cos(theta_r))
+
+Now theta_r is the real elevation of the antenna and phi_r is the real
+(well uncorrected, we're still asuming we're in the north of the
+antenna) azimuth.
+
+Azimuth correction (correcting the asumption that we're north of the
+antenna) is left as an exercise.
