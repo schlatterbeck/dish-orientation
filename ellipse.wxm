@@ -75,6 +75,91 @@ solve(g12,alpha);
 /* [wxMaxima: input   end   ] */
 
 
+/* [wxMaxima: input   start ] */
+c11: sin(phi_r)*sin(theta_r)*sin(xi) + cos(phi_r)*cos(xi) = cos(phi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c12: -sin(phi_r)*cos(theta_r) = -sin(phi)*cos(theta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c13: -sin(phi_r)*sin(theta_r)*cos(xi) + sin(xi)*cos(phi_r) = -sin(phi)*sin(theta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c21: sin(phi_r)*cos(xi) - sin(theta_r)*sin(xi)*cos(phi_r) = sin(phi)*cos(psi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c22: cos(phi_r)*cos(theta_r) = -sin(psi)*sin(theta) + cos(phi)*cos(psi)*cos(theta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c23: sin(phi_r)*sin(xi) + sin(theta_r)*cos(phi_r)*cos(xi) = sin(psi)*cos(theta) + sin(theta)*cos(phi)*cos(psi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c31: sin(xi)*cos(theta_r) = -sin(phi)*sin(psi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c32: -sin(theta_r) = -sin(psi)*cos(phi)*cos(theta) - sin(theta)*cos(psi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+c33: cos(theta_r)*cos(xi) = -sin(psi)*sin(theta)*cos(phi) + cos(psi)*cos(theta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c32,theta_r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c33,xi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c31,xi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c22,phi_r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c12,phi_r);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c11,phi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c21,phi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(c13,theta);
+/* [wxMaxima: input   end   ] */
+
+
 
 /* Old versions of Maxima abort on loading files that end in a comment. */
 "Created with wxMaxima 22.12.0"$

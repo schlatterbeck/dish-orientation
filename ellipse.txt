@@ -139,3 +139,44 @@ selben Höhe sind:
   diese Drehung hat Auswirkungen auf finale Elevation *und* Azimuth! Das
   entspricht der Drehung um -psi *nach* Anwendung von Elevation und
   Azimuth.
+
+Versuch Korrektur Elevation, Azimuth:
+
+[ [ sin(phi_r)*sin(theta_r)*sin(xi) + cos(phi_r)*cos(xi)
+  , -sin(phi_r)*cos(theta_r)
+  , -sin(phi_r)*sin(theta_r)*cos(xi) + sin(xi)*cos(phi_r)
+  ],
+  [ sin(phi_r)*cos(xi) - sin(theta_r)*sin(xi)*cos(phi_r)
+  , cos(phi_r)*cos(theta_r)
+  , sin(phi_r)*sin(xi) + sin(theta_r)*cos(phi_r)*cos(xi)
+  ],
+  [ -sin(xi)*cos(theta_r)
+  , -sin(theta_r)
+  , cos(theta_r)*cos(xi)
+  ]
+]
+
+[ [ cos(phi)
+  , -sin(phi)*cos(theta)
+  , -sin(phi)*sin(theta)
+  ],
+  [ sin(phi)*cos(psi)
+  , -sin(psi)*sin(theta) + cos(phi)*cos(psi)*cos(theta)
+  , sin(psi)*cos(theta) + sin(theta)*cos(phi)*cos(psi)
+  ],
+  [ -sin(phi)*sin(psi)
+  , -sin(psi)*cos(phi)*cos(theta) - sin(theta)*cos(psi)
+  , -sin(psi)*sin(theta)*cos(phi) + cos(psi)*cos(theta)
+  ]
+]
+
+Daraus:
+
+theta_r=asin(cos(psi)*sin(theta)+cos(phi)*sin(psi)*cos(theta))
+xi=-asin((sin(phi)*sin(psi))/cos(theta_r))
+phi_r=asin((sin(phi)*cos(theta))/cos(theta_r))
+
+And reverse direction:
+phi=acos(sin(phi_r)*sin(theta_r)*sin(xi)+cos(phi_r)*cos(xi))
+xi=-asin((sin(phi)*sin(psi))/cos(theta_r))
+theta=-asin((cos(phi_r)*sin(xi))/sin(phi)-(sin(phi_r)*sin(theta_r)*cos(xi))/sin(phi))
