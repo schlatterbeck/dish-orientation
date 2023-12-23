@@ -29,8 +29,8 @@ Photo abzulesen.
 Die Ellipse ist um einen Winkel alpha (um die Y-Achse, das ist die
 Blickrichtung) geneigt den wir direkt aus der Grafik bestimmen können,
 wir drehen die Antenne so dass die Ellipse aufrecht steht. Das
-entspricht einer Drehung um die Y-Achse (das ist die Achse die zu uns
-zeigt). Nach dieser Operation liegt l1 auf der Z-Achse.
+entspricht einer Drehung um die Y-Achse (das ist die Achse die von uns
+weg zeigt). Nach dieser Operation liegt l1 auf der Z-Achse.
 
 Jetzt können wir um beta drehen und haben einen Kreis (die Antenne
 zeigt direkt zu uns).
@@ -77,8 +77,65 @@ beiden Matrizen identisch sind, können wir aus der ersten matrix in der
 untersten Zeile in der mittleren Spalte sin (theta) bekommen und dafür
 den Ausdruck in der zweiten Matrix an der selben Stelle nehmen, also:
 
-sin(theta) = sin(alpha)*sin(beta)
+sin(theta) = -sin(alpha)*sin(beta)
 
 Also die Elevation wissen wir damit.
 In allen anderen Werten kommt leider gamma vor. Aber kann man bestimmt
 ausrechnen es gibt ja nicht so viele unbekannte .-)
+
+Man kann das auch für die anderen Werte ausrechnen (siehe Maxima Datei):
+
+Wichtig: Aus der Beobachtung einer Ellipse gibt es im Prinzip
+- Zwei Lösungen wenn wir in die Schüssel reinschauen
+- Zwei Lösungen wenn wir auf die Rückseite der Schüssel schauen
+Jeweils eine von diesen Paaren ist für eine Antenne unplausibel weil die
+Elevation negativ ist (die Antenne zeigt zum Boden). Aus dem Photo kann
+man erkennen welcher Fall das ist. Generell: Die arcus-Funktionen
+liefern nur einen Wert im Bereich 0-pi/2, ausserdem ist z.B. cosinus
+eine gerade Funktion und daher ist cos (x) = cos (-x), es ist also in
+einigen Fällen zu entscheiden ob wir einen positiven oder einen
+negativen Drehwinkel haben. Generell gilt die Rechte-Hand-Regel: Der
+Daumen zeigt in Richtung der Achse um die wir drehen wollen, dann zeigen
+die gekrümmten Finger in die positive Drehrichtung.
+
+Formeln zur Berechung von Azimuth (phi) und Elevation (theta) aus dem Bild:
+
+theta=-asin(sin(alpha)*sin(beta))
+phi=-asin((cos(alpha)*sin(beta))/cos(theta))
+gamma=asin((cos(phi)*sin(theta))/sin(beta))
+
+Und rückwärts (von Azimuth (phi), Elevation (theta) zu alpha, beta, gamma):
+beta=+/- acos(cos(phi)*cos(theta))
+(Rechte-Hand Regel um zu entscheiden ob beta ein positiver oder
+negativer Winkel ist)
+alpha=%pi-acos((sin(phi)*cos(theta))/sin(beta))
+gamma wie oben:
+gamma=asin((cos(phi)*sin(theta))/sin(beta))
+[%pi ist maxima's Repräsentation der Kreiszahl Pi]
+
+Konkretes Beispiel in rotmatrix.py für
+phi:    45.000°
+theta:  60.000°
+
+alpha:  67.792°
+beta:  -69.295°
+gamma: -40.893°
+
+Und daraus wieder zurück zu phi, theta:
+phi:    45.000°
+theta:  60.000°
+[Gerechnet mit voller Genauigkeit, nicht mit obiger Rundung für alpha,
+beta, gamma]
+
+Anmerkungen zur Korrektur wenn wir nicht im Norden der Antenne auf der
+selben Höhe sind:
+- Azimuth (wir sind nicht im Norden) ist einfach zu korrigieren wenn wir
+  wissen in welcher Richtung wir sind, einfach zum bestehenden Azimuth
+  addieren
+- Aber: Elevation ist nicht so einfach: Wir schauen ja auf die schon
+  gedrehte Antenne, unsere Elevation gegenüber der Antenne (nennen wir
+  die mal psi) wirkt auf die gedrehte Antenne. Wir müssen also diese
+  Drehung quasi *vor* der Berechnung von alpha, beta, gamma machen. Und
+  diese Drehung hat Auswirkungen auf finale Elevation *und* Azimuth! Das
+  entspricht der Drehung um -psi *nach* Anwendung von Elevation und
+  Azimuth.

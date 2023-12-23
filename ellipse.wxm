@@ -1,0 +1,80 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 22.12.0 ] */
+/* [wxMaxima: input   start ] */
+g11: cos(phi) = -sin(alpha)*sin(gamma) + cos(alpha)*cos(beta)*cos(gamma);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g12: -sin(phi)*cos(theta) = sin(beta)*cos(alpha);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g13: -sin(phi)*sin(theta) = -sin(alpha)*cos(gamma) - sin(gamma)*cos(alpha)*cos(beta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g21: sin(phi) = -sin(beta)*cos(gamma);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g22: cos(phi)*cos(theta) = cos(beta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g23: sin(theta)*cos(phi) = sin(beta)*sin(gamma);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g31:sin(alpha)*cos(beta)*cos(gamma) + sin(gamma)*cos(alpha) = 0;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g32: -sin(theta) = sin(alpha)*sin(beta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+g33: cos(theta) = -sin(alpha)*sin(gamma)*cos(beta) + cos(alpha)*cos(gamma);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve ([g11,g12,g13,g21,g22,g23,g31,g32,g33],[phi, theta, gamma]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(g32,theta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(g12,phi);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(g23,gamma);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(g22,beta);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: input   start ] */
+solve(g12,alpha);
+/* [wxMaxima: input   end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 22.12.0"$

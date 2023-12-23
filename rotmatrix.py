@@ -1,6 +1,9 @@
 #!/usr/bin/python
 
 import numpy as np
+from numpy import sin, cos, pi
+from numpy import arcsin as asin
+from numpy import arccos as acos
 
 def rot_x (angle):
     angle = angle / 180 * np.pi
@@ -38,6 +41,7 @@ if __name__ == '__main__':
     alpha = -40.9
     beta  = -69.3
 
+    print ("Turning a known point, elevation only (azimuth 0)")
     pt = np.array ([0, 0, 1])
     print (pt)
     pt = azi_ele (0, 60) @ pt
@@ -50,6 +54,7 @@ if __name__ == '__main__':
     print (pt)
     print ()
 
+    print ("Turning a known point with azimuth *and* elevation")
     pt = np.array ([0, 0, 1])
     print (pt)
     pt = azi_ele (45, 60) @ pt
@@ -64,12 +69,17 @@ if __name__ == '__main__':
 
     a1 = azi_ele    (0,  60)
     a2 = alpha_beta (90, -60)
+    print ("Rotation matrix azi=0, ele=60 and turned back via alpha, beta")
+    print ("Observe: almost the identity matrix")
     print (rot_y (-90) @ a2 @ a1)
 
     a1 = azi_ele    (0,  30)
     a2 = alpha_beta (90, -30)
+    print ("Rotation matrix azi=0, ele=30 and turned back via alpha, beta")
+    print ("Observe: almost the identity matrix")
     print (rot_y (-90) @ a2 @ a1)
 
+    print ("Example measured from openscad")
     a1 = azi_ele    (45, 60)
     alpha = 68
     beta  = -69.3
@@ -81,32 +91,28 @@ if __name__ == '__main__':
          , -np.arcsin (a2a1 [2, 0])
          ,  np.arccos (a2a1 [2, 2])
         ])
+    print ("Gamma angles from matrix:")
     print (angles)
     if  (    np.sign (angles [0]) != np.sign (angles [1])
          and np.sign (angles [2]) != np.sign (angles [3])
         ):
         angles [0] = -angles [0]
         angles [3] = -angles [3]
+    print ("Gamma angles from matrix, sign corrected:")
     print (angles)
     gamma = -sum (angles) / 4 / np.pi * 180
-    print (gamma)
+    print ("computed gamma:", gamma)
+    print ("After rotating by alpha, beta")
     print (a2a1)
+    print ("And finally by gamma, observe its nearly the identity matrix")
     print (rot_y (gamma) @ a2a1)
 
-    print ("azi_ele:")
+    print ("Matrix from azimuth/elevation:")
     print (a1)
-    print ("alpha beta gamma:")
-    print (rot_y (-alpha) @ rot_z (-beta) @ rot_y (-gamma))
-
-    # Hmm:
-    # cos (phi) = -sin(alpha) * sin(gamma) + cos(alpha) * cos(beta) * cos(gamma)
-    # sin (phi) = -sin(beta) * cos(gamma)
-    # -sin(theta) = sin(gamma) * cos(alpha)
-    # cos(theta) = -sin(alpha) * sin(gamma) * cos(beta) + cos(alpha) * cos(gamma)
-    #alpha = 68    / 180 * np.pi
-    #beta  = -69.3 / 180 * np.pi
-    #gamma = 40.96682679213232 / 180 * np.pi
     print ("alpha:", alpha, "beta:", beta, "gamma:", gamma)
+    print ("Matrix from measured alpha beta gamma:")
+    print (rot_y (-alpha) @ rot_z (-beta) @ rot_y (-gamma))
+    print ("The above two matrices are almost identical")
 
     phi    = 45 / 180 * np.pi
     theta  = 60 / 180 * np.pi
@@ -138,3 +144,23 @@ if __name__ == '__main__':
     theta2 = np.arccos (costheta)
     print ('phi:', phi1 / np.pi * 180, phi2 / np.pi * 180)
     print ('theta:', theta1 / np.pi * 180, theta2 / np.pi * 180)
+
+    print ("And finally everything computed:")
+    phi    = 45 / 180 * pi
+    theta  = 60 / 180 * pi
+    print ("phi:   %7.3f°" % (phi   * 180 / pi))
+    print ("theta: %7.3f°" % (theta * 180 / pi))
+
+    beta   = -acos (cos (phi) * cos (theta))
+    alpha  = pi - acos ((sin (phi) * cos (theta)) / sin (beta))
+    gamma  = asin ((cos (phi) * sin (theta)) / sin (beta))
+
+    print ("alpha: %7.3f°" % (alpha * 180 / pi))
+    print ("beta:  %7.3f°" % (beta  * 180 / pi))
+    print ("gamma: %7.3f°" % (gamma * 180 / pi))
+
+    # Now back to phi, theta
+    theta  = -asin (sin (alpha) * sin (beta))
+    phi    = -asin ((cos (alpha) * sin (beta)) / cos (theta))
+    print ("phi:   %7.3f°" % (phi   * 180 / pi))
+    print ("theta: %7.3f°" % (theta * 180 / pi))
